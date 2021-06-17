@@ -1,0 +1,72 @@
+{% load static %}
+<html>
+<head>
+　　<title>华北院内部培训资料</title>
+　　<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'app/css/index.css' %}" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'app/js/bootstrap-treeview.min.js' %}"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{% static 'app/pdfjs/build/pdf.js' %}"></script>
+</head>
+<body>
+　　<div class="container-fluid">
+
+        <div class="row clearfix navbar-default">
+            <ul class="nav nav-tabs" role="navigation">
+            {% ifequal pattern_name 'manager' %}
+                <li id="designer"><a href="{% url 'designer' %}">主设人培训</a></li>
+                <li id="manager" class="active"><a href="{% url 'manager' %}">项目经理培训</a></li>
+            {% else %}
+                <li id="designer" class="active"><a href="{% url 'designer' %}">主设人培训</a></li>
+                <li id="manager"><a href="{% url 'manager' %}">项目经理培训</a></li>
+            {% endifequal %}
+            
+            <button type="button" class="navbar-toggle visible-xs" data-toggle="collapse" data-target="#example-navbar-collapse">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+            </button>
+            </ul>
+            
+        </div>
+        <div class="row clearfix">
+            <div class="collapse navbar-collapse col-md-4 col-sm-4 " id="example-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <div id="tree"></div>
+                </ul>
+            </div>
+
+			<iframe id="viewerPlaceHolder" class="col-md-8 col-sm-8 col-xs-12"></iframe>
+
+        </div>
+    </div>
+　　<script type="text/javascript">
+       var filepath = "/static/app/docs/" + {{ filepath|safe }} + "/";
+       var filename = "00.pdf";
+　　　　$(function(){
+		    $("#viewerPlaceHolder").attr("src","/static/app/pdfjs/web/viewer.html?file=" + encodeURIComponent(filepath + filename));
+       });
+
+        $('#tree').treeview({
+            data: {{ tree|safe }},
+            enableLinks: true,
+
+        });
+        $('ul.nav-tabs li').on("click",function(){
+		    $('ul.nav-tabs li').removeClass('active');
+    });
+    $('#tree').on('click', 'li', function(){   
+        
+        filename = $(this).children('a').attr('href').split(";")[1];
+        if (filename){
+            $("#viewerPlaceHolder").attr("src","/static/app/pdfjs/web/viewer.html?file=" + encodeURIComponent(filepath + filename));
+        }
+    });
+
+
+　　</script>
+</body>
+</html>

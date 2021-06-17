@@ -1,0 +1,27 @@
+
+@media (min-width: 768px) {
+    #example-navbar-collapse {
+        width:33.33333333% !important;
+        height:800px !important; 
+        overflow:scroll !important;
+        margin-top: 20px;
+        
+    }
+    #viewerPlaceHolder {
+        height: 800px;
+    }
+    .navbar-nav {
+        float: none !important;
+    }
+    #tree a {
+        text-decoration:none;
+    }
+}
+@media (max-width: 767px) {
+    .navbar-default{
+        background-color:#fff;
+    }
+    #viewerPlaceHolder {
+        height: 800px;
+    }
+}
